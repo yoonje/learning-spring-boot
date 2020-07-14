@@ -45,5 +45,5 @@ Spring Boot Utilization
 Spring Boot Operation
 =======
 
-### 보충
+### 보충할 것
 * Spring Boot Principle
