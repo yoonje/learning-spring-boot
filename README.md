@@ -22,7 +22,7 @@ Spring Boot Start
   * `pox.xml`에 `spring-boot-starter-web`의존성과 `spring-boot-maven-plugin` 빌드 플러그인을 추가
   * `@SpringBootApplication` 어노테이션을 메인 함수를 가지고 있는 클래스에 추가
   * `$ mvn package`을 통해서 패키징하여 jar 파일 생성
-  * `$ java -j target/{jar 파일}`을 통해서 jar 파일 실행하여 애플리케이션 실행
+  * `$ java -j target/{jar 파일}`을 통해서 jar 파일 실행하여 애플리케이션 실행  
   cf) `Spring Initializer`로 스프링 부트 프로젝트에 대한 간단히 완성할 수 있음
 * 스프링 부트 프로젝트의 구조
   * 자바 소스 코드(src/main/java)
