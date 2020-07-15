@@ -40,7 +40,32 @@ Spring Boot Principle
 
 Spring Boot Utilization
 =======
-
+* 스프링 부트 핵심 기능
+  * SpringApplication
+  * 외부 설정
+  * 프로파일
+  * 로깅
+  * 테스트
+* 스프링 부트와 연동되는 기술
+  * 스프링 웹 MVC
+  * 스프링 데이터
+  * 스프링 시큐리티
+  * 스프링 REST API
+* SpringApplication
+  * 기본 로그 레벨은 `INFO`
+  * 애플리케이션의 에러가 났을 때 이를 정제하려 출력해주는 `Failure Analyzer`가 여러 개 등록 되어 있고 이를 커스터마징 가능
+  * `banner.txt`나 다른 이미지 파일 정의을 정의하고 배너 변수를 활용해서 배너 커스터마이징이 가능하고 `application.properties`에 spring.banner.location 설정으로 파일 등록 가능
+  * SpringApllication.setBanner()로 배너를 끄거나 킬 수 있음
+* SpringApplication 고급
+  * ApplicationEvent를 등록하고 리스너를 개발하면 ApplicationContext를 만들고 나서 `SpringApplication.addListeners()`에서 @Bean으로 등록한 리스너에 대해 특정 이벤트에 대한 핸들링을 할 수 있음
+  * `SpringApplication.setWebApplicationType()`에서 WebApplicationType을 Servlet(MVC)이나 Reactive(webflux)으로 설정 가능한데, 둘 중 하나만 존재하면 설정을 하지 않아도 타입이 결정 되지만 서블릿이 존재하면 무조건 서블릿으로 동작하므로 Reactive로 동작시키고 싶다면 설정을 해줘야함
+  * IntelliJ를 통해서 VM과 애플리케이션에 전달인자를 줄 수 있는데, VM 옵션에 -D로 오는 것은 JVM 전달인자이고 프로그램 전달인자에 --로 오는 것은 애플리케이션 전달인자임
+  * cli로도 VM과 애플리케이션에 전달인자를 줄 수 있는데 `java -jar {.jar 파일}` 명령 뒤에 -D로 오는 것은 JVM 전달인자이고 프로그램 전달인자에 --로 오는 것은 애플리케이션 전달인자임 
+  * `ApplicationRunner`나 `CommandLineRunner`를 사용하면 애플리케이션 실행 뒤에 프로그램 전달인자를 이용할 수 있음
+* 외부 설정
+* 프로파일
+* 로깅
+* 테스트
 
 Spring Boot Operation
 =======
