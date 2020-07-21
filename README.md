@@ -119,10 +119,34 @@ Spring Boot Utilization
 * 로깅 커스터마이징
   * `logback-spring.xml`이나 `log4j2-spring.xml`의 설정 파일을 통해서 로깅 설정을 full로 커스터마이징 할 수 있음
   * pom.xml에서 Logback을 exclusion하고 log4j2 의존성을 추가해서 log4j2로 설정을 변경할 수 있음
-### 테스트
+### 웹 MVC
+* `HttpMesssageConverter`
+  * HTTP 요청 본문을 객체로 변경하거나, 객체를 HTTP 응답 본문으로 변경할 때 사용
+  * `@RequestBody`(파라미터)나 `@ResponseBody`(리턴 값)와 같이 사용됨
+  * `@Restcontroller`를 사용할 경우 `@RequestBody` 생략 가능
+* `ViewReslove`
+  * 뷰 이름으로부터 사용할 뷰 오브젝트를 매핑하는 객체
+  * 들어오는 요청의 `accept header`에 따라 사용자가 원하는 뷰를 얻을 수 있으므로 그에 따라 응답을 다르게 할 수 있음
+  * `accept header`에 정보를 담아주지 않을 경우 format이라는 경로 매개변수로 알 수 있음
+* 정적 리소스 지원
+  * 클라이언트의 요청에 이미 만들어져있는 리소스를 지원하는 것으로 기본적으로 URL의 루트에 매핑되어 있음
+  * 기본 리소스 위치(/**)
+    * classpath:/static
+    * classpath:/public
+    * classpath:/resources/
+    * classpath:/META-INF/resources
+  * 기본 리소스 위치 변경
+    * spring.mvc.static-path-pattern: url 맵핑 경로 설정 변경 가능
+    * spring.mvc.static-locations: 리소스 찾을 위치 변경 가능
+* 웹 jar
+  * css나 자바스크립트 라이브러리를 jar 파일로 추가한 것으로 메이븐으로 프론트 라이브러리를 추가할 수 있게 함
+* index 페이지와 파비콘
+  * 루트 url에 대한 웰컴 페이지는 index.html이 있으면 이를 제공
 
 Spring Boot Operation
 =======
 
 ### 보충할 것
 * Spring Boot Principle
+* Spring Boot Utilization - 테스트 
+* Spring Boot Utilization - 데이터
