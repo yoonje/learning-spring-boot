@@ -71,6 +71,7 @@ Spring Boot Utilization
   * IntelliJ를 통해서 VM과 애플리케이션에 전달인자를 줄 수 있는데, VM 옵션에 -D로 오는 것은 JVM 전달인자이고 프로그램 전달인자에 --로 오는 것은 애플리케이션 전달인자임
   * cli로도 VM과 애플리케이션에 전달인자를 줄 수 있는데 `java -jar {.jar 파일}` 명령 뒤에 -D로 오는 것은 JVM 전달인자이고 프로그램 전달인자에 --로 오는 것은 애플리케이션 전달인자임 
   * `ApplicationRunner`나 `CommandLineRunner`를 사용하면 애플리케이션 실행 뒤에 프로그램 전달인자를 이용할 수 있음
+
 ### 외부 설정
 * `application.properties`이나 `application.yml`를 통해서 애플리케이션의 외부 설정을 저장할 수 있고 `@value("{설정값}")`을 통해서 코드에서 읽어올 수 있음
 * 프로퍼티 설정의 우선 순위
@@ -98,6 +99,7 @@ Spring Boot Utilization
   2. file:./
   3. classpath:/config/: /는 프로젝트 src 안의 `resource` 디렉토리
   4. classpath:/
+
 ### 외부 설정 고급
 * 프로퍼티 묶음 읽기 및 빈으로 등록 및 
   * 클래스를 정의하고 getter와 setter를 정의하고 그 클래스에 애노테이션으로 `@ConfigurationProperties("{속성}")`으로 프로퍼티를 묶어서 가져와서 `@Component`로 빈으로 등록 후 활용 가능
@@ -119,7 +121,8 @@ Spring Boot Utilization
 * 로깅 커스터마이징
   * `logback-spring.xml`이나 `log4j2-spring.xml`의 설정 파일을 통해서 로깅 설정을 full로 커스터마이징 할 수 있음
   * pom.xml에서 Logback을 exclusion하고 log4j2 의존성을 추가해서 log4j2로 설정을 변경할 수 있음
-### 웹 MVC
+
+### 웹 MVC 기본
 * `HttpMesssageConverter`
   * HTTP 요청 본문을 객체로 변경하거나, 객체를 HTTP 응답 본문으로 변경할 때 사용
   * `@RequestBody`(파라미터)나 `@ResponseBody`(리턴 값)와 같이 사용됨
@@ -128,7 +131,8 @@ Spring Boot Utilization
   * 뷰 이름으로부터 사용할 뷰 오브젝트를 매핑하는 객체
   * 들어오는 요청의 `accept header`에 따라 사용자가 원하는 뷰를 얻을 수 있으므로 그에 따라 응답을 다르게 할 수 있음
   * `accept header`에 정보를 담아주지 않을 경우 format이라는 경로 매개변수로 알 수 있음
-* 정적 리소스 지원
+
+### 웹 MVC 정적 리소스
   * 클라이언트의 요청에 이미 만들어져있는 리소스를 지원하는 것으로 기본적으로 URL의 루트에 매핑되어 있음
   * 기본 리소스 위치(/**)
     * classpath:/static
@@ -139,14 +143,36 @@ Spring Boot Utilization
     * spring.mvc.static-path-pattern: url 맵핑 경로 설정 변경 가능
     * spring.mvc.static-locations: 리소스 찾을 위치 변경 가능
 * 웹 jar
-  * css나 자바스크립트 라이브러리를 jar 파일로 추가한 것으로 메이븐으로 프론트 라이브러리를 추가할 수 있게 함
-* index 페이지와 파비콘
-  * 루트 url에 대한 웰컴 페이지는 index.html이 있으면 이를 제공
+  * css나 자바스크립트 라이브러리를 jar 파일로 추가한 것으로 메이븐으로 정적인 프론트 라이브러리를 추가할 수 있게 함
+* index 페이지
+  * 루트 url에 대한 웰컴 페이지는 `index.html`이 있으면 이를 제공
+* 파비콘
+  * 파비콘은 웹 페이지 옆에 아이콘을 의미
+  * 리소스 디렉토리에 파비콘 아이콘을 두면 이를 제공
+
+### 웹 MVC 동적 리소스
+* Thymeleaf
+  * 자바 템플릿 엔진으로 동적으로 컨텐츠를 만들 수 있어 주로 뷰를 만드는데 사용
+  * JSP가 기존의 유행하는 템플릿 엔진은 JAR로 패키징할 때 동작하지 않고 WAR로 패키징해야함
+  * `spring-boot-starter-thymeleaf`를 통해서 의존성 추가하고 html 파일에 `<html xmlns:th="http://www.thymeleaf.org">`을 삽입
+  * `@Restcontroller`가 아닌 `@Controller` 애노테이션과 ui의 패키지의 `model`에 속성 이름과 값을 넣고 `/src/main/resources/template/`에 존재하는 템플릿 이름을 리턴하면 템플릿에 값을 넘겨줄 수 있음
+  * 템플릿 파일에서는 속성 이름으로 `th:text="${속성이름}"`과 같은 방식으로 뷰를 만들 수 있음
+* HtmlUnit
+  * 템플릿 뷰를 전문적으로 테스트 할 수 있는 라이브러리
+
+### Exception Handling
+* 스프링 @MVC 예외 처리 방법
+  * @ExceptionHandler({예외클래스}.class) 애노테이션을 통해 해당 예외클래스에 대한 핸들러 함수를 매핑시킬 수 있음
+* ErrorViewResolver의 구현을 통해서 커스터마이징 가능
+
+
 
 Spring Boot Operation
 =======
+
 
 ### 보충할 것
 * Spring Boot Principle
 * Spring Boot Utilization - 테스트 
 * Spring Boot Utilization - 데이터
+* Spring Boot Utilization - HATEOAS/CORS
