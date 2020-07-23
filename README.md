@@ -165,6 +165,13 @@ Spring Boot Utilization
   * @ExceptionHandler({예외클래스}.class) 애노테이션을 통해 해당 예외클래스에 대한 핸들러 함수를 매핑시킬 수 있음
 * ErrorViewResolver의 구현을 통해서 커스터마이징 가능
 
+### REST Client
+* REST Client
+  * `RestTemplate`: Blocking I/O 기반의 동기적 API 클라이언트로 spring-web 모듈을 통해서 빌더가 빈으로 등록되어 있음
+  * `WebClient`: Non-Blocking I/O 기반의 비동기적 API클라이언트로 spring-webflux 모듈을 통해서 빌더가 빈으로 등록되어 있음
+* REST Clinet 커스터마이징
+  * 로컬 커스터마이징은 지역 변수로 빌더를 만들 때 빌더에 추가 함수를 호출해서 지정할 수 있음
+  * 글로벌 커스터마이징은 빈으로 클라이언트의 종류에 맞는 Customizer를 빈으로 등록하고 customize 함수를 오버라이딩하면서 내부에서 빌더에 추가 함수를 호출해서 지정할 수 있음
 
 
 Spring Boot Operation
