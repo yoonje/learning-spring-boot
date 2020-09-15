@@ -182,5 +182,5 @@ Spring Boot Operation
 * Spring Boot Principle
 * Spring Boot Utilization - 테스트 
 * Spring Boot Utilization - 데이터
-* Spring Boot Utilization - HATEOAS/CORS
+* Spring Boot Utilization - MVC HATEOAS/CORS
 * Spring Boot Utilization - Security
