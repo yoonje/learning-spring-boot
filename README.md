@@ -38,6 +38,29 @@ Spring Boot Start
 
 Spring Boot Principle
 =======
+* 스프링 부트의 의존성 관리 기능
+  * 스프링 부트는 `pom.xml`에 정의된 의존성을 버전 명시 없이 가져오는데, 이는 `parent`의 각각의 `starter`에서 이미 등록된 spring boot dependencies를 찾아가서 자동으로 버전을 가져오기 때문에 편리하고 spring boot dependencies에서 관리 하지 않는 방법은 라이브러리는 추가 시에 반드시 버전을 명시해야함
+  * 새로운 의존성을 `parent`를 통해서 의존성을 관리하는 것이 좋은 방법
+  * 서드 파티 라이브러리는 버전 명시를 명시해서 `dependencis`로 추가하는 것이 좋음
+* 스프링 부트 자동 설정
+  * `@SpringBootApplication` 안에 있는 `@EnableAutoConfiguration`을 통해서 기본 설정들이 진행이 됨
+  * 스프링 부트는 Bean을 `@ComponentScan`, `@EnableAutoConfiguration` 2단계를 통해서 빈으로 등록
+  * `@ComponentScan`는 `@SpringBootApplication` 밑에 존재하는 `@Component`, `@Configuration`, `@Repository`, `@Service`, `@Controller`, `@RestController` 어노테이션들을 모두 빈으로 등록
+  * `@EnableAutoConfiguration`는 `spring.factories` 패키지에 등록된 기본 빈 설정들을 `@ConditionalOn`으로 체크하고 빈으로 등록되어 있지 않은 경우 빈으로 등록하는데 `@ComponentScan`보다 `@EnableAutoConfiguration` 우선되므로 주의
+* 스프링 부트 자동 설정 방법
+  * Starter와 Autoconfigure: `spring-boot-autoconfigure`와 `spring-boot-autoconfigure-processor` 의존성 추가 -> @Configuration 파일 작성 -> src/main/resource/META-INF에 spring.factories 파일 만들기 -> spring.factories 안에 자동 설정 파일 추가 -> mvn install
+  * 
+* 내장 웹 서버
+  * 서블릿: 자바를 사용하여 웹페이지를 동적으로 생성하는 서버측 프로그램
+  * 톰캣: 서블릿 컨테이너만 있는 웹 애플리케이션 서버
+  * 웹 서버 만들기: 톰캣 객체 생성 -> 포트 설정 -> 톰캣에 컨텍스트 추가 -> 서블릿 만들기 -> 톰캣에 서블릿 추가 -> 컨텍스트에 서블릿 맵핑 -> 톰캣 실행 및 대기
+  * `서블릿 컨테이너`과 톰캣은 자동 설정을 통해서 스프링 부트 애플리케이션을 실행하면 실행
+  * `ServletWebServerFactoryAutoConfiguration`을 통해서 서블릿을 만들게 되고 `DispatcherServletAutoConfiguration`을 통해서 서블릿이 등록
+* 독립적으로 실행 가능한 Jar
+  * 메이븐을 통해서 프로젝트를 패키징하면 target 안에 모든 라이브러리와 코드를 패키징하여 `jar`로 만듦
+  * 내장 JAR : 패키징된 jar 안에 넣어진 jar들
+  * org.springframework.boot.loader.jar.JarFile을 사용해서 내장 JAR를 읽음
+  * org.springframework.boot.loader.Launcher를 사용해서 실행
 
 
 Spring Boot Utilization
@@ -179,8 +202,8 @@ Spring Boot Operation
 
 
 ### 보충할 것
-* Spring Boot Principle
 * Spring Boot Utilization - 테스트 
 * Spring Boot Utilization - 데이터
 * Spring Boot Utilization - MVC HATEOAS/CORS
 * Spring Boot Utilization - Security
+* Spring Boot Operation
