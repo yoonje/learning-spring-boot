@@ -57,7 +57,7 @@ Spring Boot Principle
   * `서블릿 컨테이너`과 톰캣은 자동 설정을 통해서 스프링 부트 애플리케이션을 실행하면 실행
   * `ServletWebServerFactoryAutoConfiguration`을 통해서 서블릿을 만들게 되고 `DispatcherServletAutoConfiguration`을 통해서 서블릿이 등록
 * 독립적으로 실행 가능한 Jar
-  * 메이븐을 통해서 프로젝트를 패키징하면 target 안에 모든 라이브러리와 코드를 패키징하여 `jar`로 만듦
+  * spring-boot-maven 플러그인을 통해서 프로젝트를 패키징하면 target 안에 모든 라이브러리와 코드를 패키징하여 `jar`로 만듦
   * 내장 JAR : 패키징된 jar 안에 넣어진 jar들
   * org.springframework.boot.loader.jar.JarFile을 사용해서 내장 JAR를 읽음
   * org.springframework.boot.loader.Launcher를 사용해서 실행
