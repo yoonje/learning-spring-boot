@@ -250,4 +250,6 @@ Spring Boot Operation
 * Spring Boot Principle - 내장 웹 서버 응용
 * Spring Boot Utilization - 테스트
 * Spring Boot Utilization - Web Mvc HATEOAS / CORS
+* Spring Boot Utilization - Data Redis, MongoDB, neo4j
+* Spring Boot Utilization - 시큐리티
 * Spring Boot Operation
