@@ -145,7 +145,10 @@ Spring Boot Utilization
   * `logback-spring.xml`이나 `log4j2-spring.xml`의 설정 파일을 통해서 로깅 설정을 full로 커스터마이징 할 수 있음
   * pom.xml에서 Logback을 exclusion하고 log4j2 의존성을 추가해서 log4j2로 설정을 변경할 수 있음
 
-### 웹 MVC 기본
+### 스프링 테스트
+
+
+### 스프링 웹 MVC 기본
 * `HttpMesssageConverter`
   * HTTP 요청 본문을 객체로 변경하거나, 객체를 HTTP 응답 본문으로 변경할 때 사용
   * `@RequestBody`(파라미터)나 `@ResponseBody`(리턴 값)와 같이 사용됨
@@ -155,7 +158,7 @@ Spring Boot Utilization
   * 들어오는 요청의 `accept header`에 따라 사용자가 원하는 뷰를 얻을 수 있으므로 그에 따라 응답을 다르게 할 수 있음
   * `accept header`에 정보를 담아주지 않을 경우 format이라는 경로 매개변수로 알 수 있음
 
-### 웹 MVC 정적 리소스
+### 스프링 웹 MVC 정적 리소스
   * 클라이언트의 요청에 이미 만들어져있는 리소스를 지원하는 것으로 기본적으로 URL의 루트에 매핑되어 있음
   * 기본 리소스 위치(/**)
     * classpath:/static
@@ -173,7 +176,7 @@ Spring Boot Utilization
   * 파비콘은 웹 페이지 옆에 아이콘을 의미
   * 리소스 디렉토리에 파비콘 아이콘을 두면 이를 제공
 
-### 웹 MVC 동적 리소스
+### 스프링 웹 MVC 동적 리소스
 * Thymeleaf
   * 자바 템플릿 엔진으로 동적으로 컨텐츠를 만들 수 있어 주로 뷰를 만드는데 사용
   * JSP가 기존의 유행하는 템플릿 엔진은 JAR로 패키징할 때 동작하지 않고 WAR로 패키징해야함
@@ -183,10 +186,53 @@ Spring Boot Utilization
 * HtmlUnit
   * 템플릿 뷰를 전문적으로 테스트 할 수 있는 라이브러리
 
-### Exception Handling
+### 스프링 웹 MVC Exception Handling
 * 스프링 @MVC 예외 처리 방법
   * @ExceptionHandler({예외클래스}.class) 애노테이션을 통해 해당 예외클래스에 대한 핸들러 함수를 매핑시킬 수 있음
 * ErrorViewResolver의 구현을 통해서 커스터마이징 가능
+
+### 스프링 데이터
+* DataSource로 SQL(H2, MySQL, PostgreSQL) 이용하기
+  * H2(인 메모리 디비), MySQL, PostgreSQL에 해당하는 라이브러리는 각각 pox.xml에 정의해야줘야 사용이 가능
+  * 스프링은 아무런 디비 설정을 하지 않으면 인메모리 데이터베이스를 기본으로 데이터 소스로 설정
+  * `DataSource` 빈을 의존성 주입 받고 이를 통해서 getConnection() 함수를 호출하면 connection을 얻을 수 있음 
+  * connection을 통해서 createStatement() 함수를 호출하면 DataSrouce에 실행할 수 있는 statement를 얻을 수 있고 이게 해당하는 sql을 인자로 넘겨 statement.execUpdate(sql)을 호출하면 쿼리가 실행 가능
+* Jdbc로 SQL(H2, MySQL, PostgreSQL) 이용하기
+  `JdbcTemplate` 빈을 의존성 주입 받고 이를 통해서 excute() 함수를 호출하면 간단하게 sql 쿼리가 실행 가능
+* DBCP
+  * DBCP는 디비 커넥션 풀의 약자로, 디비와 커넥션을 만드는 과정이 비용이 크기 때문에 미리 커넥션을 만들어 둘 수 있는 기능
+  * 스프링은 Hikari를 기본으로 사용
+  * 프로퍼티 파일에서 DBCP에 관련 설정을 할 수 있음
+* 스프링 데이터 JPA
+  * ORM: 객체와 릴레이션을 맵핑할 때 발생하는 개념적 불일치를 해결하는 프레임워크
+  * Spring Data JPA: 스프링에서 JPA를 쉽게 사용하기 위해 만든 모듈
+  * JPA: Java Persistence API의 약자로, 자바 어플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 인터페이스 표준
+  * Hibernate: JPA의 구현체 표준
+  * Jdbc: Hibernate를 구현할 때 쓰는 자바 디비 라이브러리
+  * Spring Data JPA -> JPA -> Hibernate -> Jdbd
+* 스프링 데이터 JPA 이용
+  * 모델 클래스에 `@Enity`를 통해서 매핑을 하고 `@Id`와 `@GeneratedValue`를 통해서 id라는 필드를 설정
+  * 레포지토리를 인터페이스로 만들고 `JpaRepository< {모델}, {모델 Id의 자료형}>`를 extends하여 설정
+  * 예를 들어, username이라는 필드가 있는 경우 FindByUsername 메소드를 레포지토리에 등록만 하여도 실제 구현체를 Spring Data JPA가 충족시켜줌
+  * 레포지토리에 등록하는 메소드 위에 `@Query({JPQL})`을 통해서 jpql을 통해서 쿼리를 메소드와 매핑시킬 수도 있음
+  * 레포지토리에 등록하는 메소드 위에 `@Query(nativeQuery=true, value={실제 SQL 쿼리})`를 통해서 실행하고 싶은 네이티브 SQL을 메소드와 매핑시킬 수도 있음
+  * 레포지토리에 등록된 find 관련 메소드는 Optional을 리턴하게 할 수도 있는데, 이를 통해 결과가 비어 있는지 확인하고 사용할 수 있음
+* 스프링 데이터 JPA 초기화
+  * `spring.jpa.hibernate.ddl-auto=update`, `spring.jpa.hibernate.ddl-auto=create`, `spring.jpa.hibernate.ddl-auto=create-drop`, `spring.jpa.generate-dll=true`를 통해서 Entity를 보고 자동으로 스키마가 생성되도록 할 수 있음
+  * schema.sql, schema-{$platform}.sql 이나 data.sql, data-{$platform}.sql을 통해서 SQL 스크립트로 초기화할 수 있고 ${platform} 값은 spring.datasource.platform 으로 설정 가능
+* 스프링 데이터 JPA 마이그레이션
+  * 스프링 마이그레이션 툴로는 `Flyway`와 `Liquibase`이 존재
+  * 툴과 관련된 의존성을 추가하면 사용이 가능
+  * db/migration 또는 db/migration/{vendor}로 마이그레이션 sql 파일 디렉토리르 설정할 수 있고 spring.flyway.locations로 변경 가능
+  * 마이그레이션 파일 컨벤션
+    * V숫자__이름.sql
+    * V는 꼭 대문자로
+    * 숫자는 순차적으로 (타임스탬프 권장)
+    * 숫자와 이름 사이에 언더바 두 개
+    * 이름은 가능한 서술적으로
+
+### 스프링 시큐티리
+* 
 
 ### REST Client
 * REST Client
@@ -196,14 +242,12 @@ Spring Boot Utilization
   * 로컬 커스터마이징은 지역 변수로 빌더를 만들 때 빌더에 추가 함수를 호출해서 지정할 수 있음
   * 글로벌 커스터마이징은 빈으로 클라이언트의 종류에 맞는 Customizer를 빈으로 등록하고 customize 함수를 오버라이딩하면서 내부에서 빌더에 추가 함수를 호출해서 지정할 수 있음
 
-
 Spring Boot Operation
 =======
-
+### Acuator
 
 ### 보충할 것
-* Spring Boot Utilization - 테스트 
-* Spring Boot Utilization - 데이터
-* Spring Boot Utilization - MVC HATEOAS/CORS
-* Spring Boot Utilization - Security
+* Spring Boot Principle - 내장 웹 서버 응용
+* Spring Boot Utilization - 테스트
+* Spring Boot Utilization - Web Mvc HATEOAS / CORS
 * Spring Boot Operation
