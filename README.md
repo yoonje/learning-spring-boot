@@ -1,4 +1,4 @@
-# Spring Boot 정리 자료
+# Spring Framework 정리 자료
 스프링 부트 개념과 활용 정리 문서
 
 Table of contents
