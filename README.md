@@ -209,7 +209,7 @@ Spring Boot Utilization
   * JPA: Java Persistence API의 약자로, 자바 어플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 인터페이스 표준
   * Hibernate: JPA의 구현체 표준
   * Jdbc: Hibernate를 구현할 때 쓰는 자바 디비 라이브러리
-  * Spring Data JPA -> JPA -> Hibernate -> Jdbd
+  * Spring Data JPA -> JPA -> Hibernate -> Jdbc
 * 스프링 데이터 JPA 이용
   * 모델 클래스에 `@Enity`를 통해서 매핑을 하고 `@Id`와 `@GeneratedValue`를 통해서 id라는 필드를 설정
   * 레포지토리를 인터페이스로 만들고 `JpaRepository< {모델}, {모델 Id의 자료형}>`를 extends하여 설정
