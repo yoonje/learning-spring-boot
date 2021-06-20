@@ -231,7 +231,7 @@ Spring Boot Utilization
     * 숫자와 이름 사이에 언더바 두 개
     * 이름은 가능한 서술적으로
 
-### 스프링 시큐티리
+### 스프링 시큐리티
 * 
 
 ### REST Client
